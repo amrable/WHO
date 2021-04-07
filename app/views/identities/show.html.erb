@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @identity.name %>
+</p>
+
+<p>
+  <strong>Age:</strong>
+  <%= @identity.age %>
+</p>
+
+<p>
+  <strong>Gender:</strong>
+  <%= @identity.gender %>
+</p>
+
+<p>
+  <strong>Phone number:</strong>
+  <%= @identity.phone_number %>
+</p>
+
+<p>
+  <strong>Additional info:</strong>
+  <%= @identity.additional_info %>
+</p>
+
+<p>
+  <strong>Token:</strong>
+  <%= @identity.token %>
+</p>
+
+<%= link_to 'Edit', edit_identity_path(@identity) %> |
+<%= link_to 'Back', identities_path %>

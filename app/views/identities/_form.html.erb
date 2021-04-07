@@ -1,0 +1,42 @@
+<%= form_with(model: identity) do |form| %>
+  <% if identity.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(identity.errors.count, "error") %> prohibited this identity from being saved:</h2>
+
+      <ul>
+        <% identity.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.text_field :name, :class=> 'form-control', :placeholder => "name"  %>
+  </div>
+
+  <div class="form-group">
+    <%= form.number_field :age , :class=> 'form-control', :placeholder => "age"   %>
+  </div>
+
+  <div class="form-group">
+    <%= form.text_field :gender , :class=> 'form-control', :placeholder => "gender"   %>
+  </div>
+
+  <div class="form-group">
+    <%= form.text_field :phone_number , :class=> 'form-control', :placeholder => "phone number" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.text_area :additional_info, :class=> 'form-control', :placeholder => "additional information"    %>
+  </div>
+
+  <div class="form-group">
+    <%= form.text_field :token , :class=> 'form-control' , :placeholder => "token"  %>
+    <small class="form-text text-muted">We'll treat the token the same as a password.</small>
+  </div>
+  
+  <div class="actions">
+    <%= form.submit :class => "btn btn-primary" %>
+  </div>
+<% end %>

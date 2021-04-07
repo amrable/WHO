@@ -175,6 +175,7 @@ GEM
     turbolinks-source (5.2.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    uuidtools (2.2.0)
     web-console (4.1.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -214,6 +215,7 @@ DEPENDENCIES
   sqlite3 (~> 1.4)
   turbolinks (~> 5)
   tzinfo-data
+  uuidtools (~> 2.2)
   web-console (>= 4.1.0)
   webdrivers
   webpacker (~> 5.0)

@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Identities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>Phone number</th>
+      <th>Additional info</th>
+      <th>Token</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @identities.each do |identity| %>
+      <tr>
+        <td><%= identity.name %></td>
+        <td><%= identity.age %></td>
+        <td><%= identity.gender %></td>
+        <td><%= identity.phone_number %></td>
+        <td><%= identity.additional_info %></td>
+        <td><%= identity.token %></td>
+        <td><%= link_to 'Show', identity %></td>
+        <td><%= link_to 'Edit', edit_identity_path(identity) %></td>
+        <td><%= link_to 'Destroy', identity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Identity', new_identity_path %>
