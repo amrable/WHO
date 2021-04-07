@@ -3,6 +3,12 @@ require "uuidtools"
 class IdentitiesController < ApplicationController
   before_action :set_identity, only: %i[ show edit update destroy ]
 
+  def select
+    print "Email sent!"
+    @identity = Identity.find_by uuid: params['uuid']
+
+  end
+
   # GET /identities or /identities.json
   def index
     @identities = Identity.all
@@ -27,10 +33,12 @@ class IdentitiesController < ApplicationController
     @identity['uuid'] = UUIDTools::UUID.random_create
     respond_to do |format|
       if @identity.save
-        format.html { redirect_to @identity, notice: "Identity was successfully created." }
+        url = "/identities/s/"+@identity['uuid']
+        format.html { redirect_to url, notice: "Identity was successfully created." }
         format.json { render :show, status: :created, location: @identity }
       else
         format.html { render :new, status: :unprocessable_entity }
+        
         format.json { render json: @identity.errors, status: :unprocessable_entity }
       end
     end

@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+<div class="jumbotron">
+    <p>
+        <strong>Namee:</strong>
+        <%= @identity.name %>
+    </p>
+    <p>
+        <strong>Age:</strong>
+        <%= @identity.age%>
+    </p>
+    <p>
+        <strong>Gender:</strong>
+        <%= @identity.gender %>
+    </p>
+    <p>
+        <strong>Phone number:</strong>
+        <%= @identity.phone_number %>
+    </p>
+
+    <hr class="my-4">
+    <p>
+        <strong>Additional info:</strong>
+        <%= @identity.additional_info %>
+    </p>
+</div>
+
+<% link_to 'Edit', edit_identity_path(@identity) %> 
+<%= link_to 'Back', root_path %>
