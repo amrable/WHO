@@ -26,7 +26,8 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 
 gem 'uuidtools', '~> 2.2'
-
+gem 'prawn-qrcode', '~> 0.5.2'
+  
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 

@@ -24,3 +24,15 @@
     margin-top: 2%;
     text-align: center;
 }
+
+.qrcode  svg{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.qrcode  a{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

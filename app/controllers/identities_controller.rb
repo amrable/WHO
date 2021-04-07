@@ -1,12 +1,18 @@
 require "uuidtools"
+require 'prawn/qrcode'
 
 class IdentitiesController < ApplicationController
   before_action :set_identity, only: %i[ show edit update destroy ]
 
+  # GET /download_pdf/:uuid
+  def download_pdf
+    send_file "#{Rails.root}/app/assets/images/" + params['uuid'] + '.svg', type: "application/svg", x_sendfile: true
+  end
+  
+  # GET /identities/s/:uuid
   def select
-    print "Email sent!"
     @identity = Identity.find_by uuid: params['uuid']
-
+    @path_to = @identity.uuid + ".svg"
   end
 
   # GET /identities or /identities.json
@@ -33,12 +39,22 @@ class IdentitiesController < ApplicationController
     @identity['uuid'] = UUIDTools::UUID.random_create
     respond_to do |format|
       if @identity.save
+        qrcode_content = "localhost:300/indentities/s/" + @identity.uuid
+        qrcode_content = "google.com"
+        qrcode = RQRCode::QRCode.new(qrcode_content, level: :m, size: 5)
+        code = qrcode.as_svg(
+          offset: 0,
+          color: '000',
+          shape_rendering: 'crispEdges',
+          module_size: 11,
+          standalone: true
+        )
+        IO.binwrite('app/assets/images/' + @identity.uuid+ '.svg', code.to_s ) 
         url = "/identities/s/"+@identity['uuid']
         format.html { redirect_to url, notice: "Identity was successfully created." }
         format.json { render :show, status: :created, location: @identity }
       else
         format.html { render :new, status: :unprocessable_entity }
-        
         format.json { render json: @identity.errors, status: :unprocessable_entity }
       end
     end

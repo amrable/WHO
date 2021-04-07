@@ -1,5 +1,12 @@
 <p id="notice"><%= notice %></p>
+
 <div class="jumbotron">
+    <div  class="qrcode">   
+        <%= show_svg(@path_to) %>
+        <br/>
+        <%= link_to "Download QR Code (.svg)", '/download_pdf/'+@identity.uuid , :class => "btn btn-outline-success" %>
+        <br/>
+    </div>
     <p>
         <strong>Namee:</strong>
         <%= @identity.name %>
@@ -22,7 +29,5 @@
         <strong>Additional info:</strong>
         <%= @identity.additional_info %>
     </p>
+    <%= link_to 'Back', root_path, :class => "btn btn-primary" %>
 </div>
-
-<% link_to 'Edit', edit_identity_path(@identity) %> 
-<%= link_to 'Back', root_path %>
