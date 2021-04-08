@@ -30,4 +30,5 @@
         <%= @identity.additional_info %>
     </p>
     <%= link_to 'Back', root_path, :class => "btn btn-primary" %>
+    <%= link_to 'Edit', '/identities/'+ @identity.uuid + '/edit' , :class => "btn btn-outline-primary" %>
 </div>

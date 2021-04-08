@@ -1,5 +1,6 @@
 require "uuidtools"
 require 'prawn/qrcode'
+require 'unix_crypt'
 
 class IdentitiesController < ApplicationController
   before_action :set_identity, only: %i[ show edit update destroy ]
@@ -8,7 +9,6 @@ class IdentitiesController < ApplicationController
   def download_pdf
     send_file "#{Rails.root}/app/assets/images/" + params['uuid'] + '.svg', type: "application/svg", x_sendfile: true
   end
-  
   # GET /identities/s/:uuid
   def select
     @identity = Identity.find_by uuid: params['uuid']
@@ -37,6 +37,7 @@ class IdentitiesController < ApplicationController
   def create
     @identity = Identity.new(identity_params)
     @identity['uuid'] = UUIDTools::UUID.random_create
+    @identity['token'] = UnixCrypt::SHA256.build(@identity['token'])
     respond_to do |format|
       if @identity.save
         qrcode_content = "localhost:300/indentities/s/" + @identity.uuid
@@ -63,11 +64,20 @@ class IdentitiesController < ApplicationController
   # PATCH/PUT /identities/1 or /identities/1.json
   def update
     respond_to do |format|
-      if @identity.update(identity_params)
-        format.html { redirect_to @identity, notice: "Identity was successfully updated." }
-        format.json { render :show, status: :ok, location: @identity }
+      @identity = Identity.find(params[:id])
+      if UnixCrypt.valid?(params[:identity][:token], @identity.token)
+        params[:identity][:token] = @identity.token
+        if @identity.update(identity_params)
+          url = "/identities/s/"+@identity['uuid']
+          format.html { redirect_to url, notice: "Identity was successfully updated." }
+          format.json { render :show, status: :ok, location: @identity }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @identity.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        url = "/identities/s/"+@identity['uuid']
+        format.html { redirect_to url, notice: "Invalid token." }
         format.json { render json: @identity.errors, status: :unprocessable_entity }
       end
     end
@@ -75,6 +85,7 @@ class IdentitiesController < ApplicationController
 
   # DELETE /identities/1 or /identities/1.json
   def destroy
+    @identity = Identity.find(params[:id])
     @identity.destroy
     respond_to do |format|
       format.html { redirect_to identities_url, notice: "Identity was successfully destroyed." }
@@ -85,7 +96,7 @@ class IdentitiesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_identity
-      @identity = Identity.find(params[:id])
+      @identity = Identity.find_by uuid: params['uuid']
     end
 
     # Only allow a list of trusted parameters through.
