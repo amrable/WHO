@@ -14,6 +14,12 @@
  *= require_self
  */
 
+.card {
+    margin: 10px auto; /* Added */
+    float: none; /* Added */
+    margin-bottom: 10px; /* Added */
+}
+
 .logo img {
     width: 10%;
     display: block;
