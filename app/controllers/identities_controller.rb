@@ -40,7 +40,7 @@ class IdentitiesController < ApplicationController
     @identity['token'] = UnixCrypt::SHA256.build(@identity['token'])
     respond_to do |format|
       if @identity.save
-        qrcode_content = "localhost:300/indentities/s/" + @identity.uuid
+        qrcode_content = "http://3.128.155.87:3003/indentities/s/" + @identity.uuid
         qrcode = RQRCode::QRCode.new(qrcode_content, level: :m, size: 5)
         code = qrcode.as_svg(
           offset: 0,
